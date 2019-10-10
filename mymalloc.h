@@ -22,7 +22,6 @@ void* myfree(int, __FILE__, __LINE__);
 struct md{
 	char isFree; //use a char to store whether the block of memory is "free" | '0' = Not free, '1' = Free
 	short size; //use a short to store the size of the block of memory since it is smaller than int
-	struct md *next; //pointer to the next metadata entry
 }
 
 //definition for a static array of size 4096 to allocate from
