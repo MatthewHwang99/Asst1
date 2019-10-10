@@ -18,6 +18,8 @@ void* mymalloc(int, __FILE__, __LINE__);
 //function signature for myfree(x) code
 void* myfree(int, __FILE__, __LINE__);
 
+int getNextAddr(struct, int);
+
 //metadata struct definition
 struct md{
 	char isFree; //use a char to store whether the block of memory is "free" | '0' = Not free, '1' = Free

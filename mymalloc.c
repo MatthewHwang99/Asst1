@@ -1,5 +1,9 @@
 #include "mymalloc.h"
 
+int getNextAddr(struct md currNode, int loc){
+	return currNode.size+sizeof(struct md)+loc;
+}
+
 void* mymalloc(int size, char* filename, int lineNum){
 	//check to see if the size is valid
 	if(size < 0 || size > 4096){
