@@ -11,11 +11,16 @@ void* mymalloc(int size, char* filename, int lineNum){
     //First time mymalloc is run
     struct metadata first = {'y', (4096-sizeof(struct metadata))};
     *ptr = first;
-    
+    return ptr+sizeof(struct metadata);
   }
-
-  while(ptr){
-
+  //Iterate through entire array until a free metadata is found with enough size
+  while(ptr <= myblock[4096]){
+    if(ptr->isFree == 'y'){
+      if(ptr->size >= size){
+	//block of mem. is free and is big enough
+      }
+    }
+    ptr = myblock[ptr+sizeof(struct metadata)];
   }
   
   
