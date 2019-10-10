@@ -1,2 +1,5 @@
-#include<>
-Hello buddy
+#ifndef mymalloc.h
+#define mymalloc.h
+
+
+#endif
