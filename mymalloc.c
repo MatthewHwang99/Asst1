@@ -11,20 +11,38 @@ void* mymalloc(int size, char* filename, int lineNum){
     //First time mymalloc is run
     struct metadata first = {'y', (4096-sizeof(struct metadata))};
     *ptr = first;
-    return ptr+sizeof(struct metadata);
+    ptr = &(ptr+sizeof(struct metadata));
+    //double check to make sure this is the correct output; should be a pointer to the new data block
+    return (char*)ptr;
   }
+
   //Iterate through entire array until a free metadata is found with enough size
   while(ptr <= myblock[4096]){
     if(ptr->isFree == 'y'){
       if(ptr->size >= size){
 	//block of mem. is free and is big enough
+	if((ptr->size - size) > sizeof(struct metadata)){
+	  //there is enough room for another block of memory
+	  struct metadata new = {'y', (ptr->size - size - sizeof(metadata))};
+	  *(ptr + size) = new;
+	  ptr->size = size;
+	  ptr->isFree = 'n';
+	  ptr = &myblock[ptr+sizeof(metadata)];
+	}else{
+	  //isn't enough space for another metadata struct and more memory so just return the whole block of memory
+	  ptr->isFree = 'n';
+	  ptr = &myblock[ptr+sizeof(metadata)];
+	}
+	return (char*)ptr;
       }
     }
-    ptr = myblock[ptr+sizeof(struct metadata)];
+    //Seg fault???
+    //or
+    //ptr = &(ptr+sizeof(struct metadata));
+    ptr = &myblock[ptr+sizeof(struct metadata)];
   }
-  
-  
-  return;
+  //if you get here we could not process the request  
+  return NULL;
 }
 
 void myfree(int size, char* filename, int lineNum){
