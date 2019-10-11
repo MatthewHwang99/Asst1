@@ -16,7 +16,7 @@
 void* mymalloc(int, __FILE__, __LINE__);
 
 //function signature for myfree(x) code
-void* myfree(int, __FILE__, __LINE__);
+void* myfree(void*, __FILE__, __LINE__);
 
 int getNextAddr(struct, int);
 
