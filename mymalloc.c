@@ -17,7 +17,7 @@ void* mymalloc(int size, char* filename, int lineNum){
   }
 
   //Iterate through entire array until a free metadata is found with enough size
-  while(ptr <= myblock[4096]){
+  while(ptr <= myblock[4095]){
     if(ptr->isFree == 'y'){
       if(ptr->size >= size){
 	//block of mem. is free and is big enough
