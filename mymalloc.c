@@ -17,7 +17,7 @@ void* mymalloc(int size, char* filename, int lineNum){
     *ptr = first;
     ptr = &(ptr+sizeof(struct metadata));
     //double check to make sure this is the correct output; should be a pointer to the new data block
-    return (char*)ptr;
+    return (void*)ptr;
   }
 
   //Iterate through entire array until a free metadata is found with enough size
@@ -37,7 +37,7 @@ void* mymalloc(int size, char* filename, int lineNum){
 	  ptr->isFree = 'n';
 	  ptr = &myblock[ptr+sizeof(metadata)];
 	}
-	return (char*)ptr;
+	return (void*)ptr;
       }
     }
     //Seg fault???
