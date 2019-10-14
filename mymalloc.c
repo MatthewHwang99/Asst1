@@ -1,7 +1,7 @@
 #include "mymalloc.h"
 
-int getNextAddr(struct md currNode, int loc){
-	return currNode.size+sizeof(struct md)+loc;
+int getNextAddr(struct metadata currNode, int loc){
+	return currNode.size+sizeof(struct metadata)+loc;
 }
 
 void* mymalloc(int size, char* filename, int lineNum){
@@ -87,7 +87,7 @@ void myfree(void* ptr, char* filename, int lineNum){
 		return; 
 	}
 	
-	ptr = ptr - sizeof(struct md); //move ptr to the metadata of the data being free'd
+	ptr = ptr - sizeof(struct metadata); //move ptr to the metadata of the data being free'd
 	
 	//A: Free()ing addresses that are not pointers:
 	if( !(ptr > &myblock[0] && ptr <= &myblock[4095]) ){
@@ -97,12 +97,12 @@ void myfree(void* ptr, char* filename, int lineNum){
 	
 	//B: Free()ing pointers that were not allocated by malloc():
 	//Check each md block to see if ptr is one of the mem block's that were malloc'd
-	struct md* temp = (struct md*)(myblock+1);
+	struct metadata* temp = (struct metadata*)(myblock+1);
 	int pos = 1;
 	while(pos < 4096){
 		if(temp != ptr){
 			pos = getNextAddr(temp, pos);
-			temp = (struct md*)(myblock+pos);
+			temp = (struct metadata*)(myblock+pos);
 		}else{
 			break; //temp == ptr | ptr was allocated by mymalloc
 		}
@@ -114,7 +114,7 @@ void myfree(void* ptr, char* filename, int lineNum){
 	}
 	
 	//C: Redundant free()ing of the same pointer:
-	struct md* mdPtr = (struct md*) ptr;
+	struct metadata* mdPtr = (struct metadata*) ptr;
 	if(mdPtr.isFree == '1'){
 		printf("Error at line %d in file %s: Pointer was already free'd.\n", lineNum, filename);
 		return;
@@ -124,20 +124,20 @@ void myfree(void* ptr, char* filename, int lineNum){
 	mdPtr.isFree = '1';
 	
 	//Iterate through the metadatas and combined adjacent blocks of memory that are free
-	struct md* temp = (struct md*)(myblock+1);
-	struct md* prev = temp;
+	struct metadata* temp = (struct metadata*)(myblock+1);
+	struct metadata* prev = temp;
 	pos = getNextAddr(temp, 1);
-	temp = (struct md*)(myblock+pos);
+	temp = (struct mmetadata*)(myblock+pos);
 	
 	while(pos < 4096){
 		if(temp.isFree == '1' && prev.isFree == '1'){ //adj blocks are free, combine them
-			prev.size += (temp.size+sizeof(struct md));
+			prev.size += (temp.size+sizeof(struct metadata));
 			pos = getNextAddr(temp, pos);
-			temp = (struct md*)(myblock+pos); //keep prev where it is in case the md after temp is also free
+			temp = (struct metadata*)(myblock+pos); //keep prev where it is in case the md after temp is also free
 		}else{
 			pos = getNextAddr(temp, pos);
 			prev = temp;
-			temp = (struct md*)(myblock+pos);
+			temp = (struct metadata*)(myblock+pos);
 		}
 	}
 	
