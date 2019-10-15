@@ -1,1 +1,4 @@
 Testplan:
+(1) For the first workload, we decided test how free merges adjacent blocks of memory when there are 3 blocks of memory in a row that are all free. We did this by allocating 3 times, with random sizes and then freeing the outer two pointers before freeing the pointer in the middle. When the pointer in the middle is freed, all of the blocks of memory should merge together into one block of memory that is free.
+
+(2) For the second workload, we decided to test what happens when we run out of space to use for allocating memory. We did this by allocating random sizes until myblock is completely full. Then, we free'd all of the pointers.
