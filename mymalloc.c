@@ -15,7 +15,7 @@ void* mymalloc(int size, char* fileName, int lineNum){
     //First time mymalloc is run
     struct metadata first = {'y', (4096-sizeof(struct metadata))};
     *ptr = first;
-    ptr = &(ptr+sizeof(struct metadata));
+    ptr += sizeof(struct metadata);
     //double check to make sure this is the correct output; should be a pointer to the new data block
     return (void*)ptr;
   }
@@ -55,9 +55,8 @@ void* mymalloc(int size, char* fileName, int lineNum){
 
 void myfree(void* pointer, char* filename, int lineNum){
 	if(pointer == NULL){ //no operation is performed is ptr is NULL
-		return; 
+	  return; 
 	}
-	
 	struct metadata* ptr = pointer - sizeof(struct metadata); //move ptr to the metadata of the data being free'd
 	
 	//A: Free()ing addresses that are not pointers:
