@@ -8,7 +8,7 @@ int main(int argc, char** argv){
 	
 	//A: malloc() 1 byte and immediately free it - do this 150 times
 	/*for(i = 0; i<150; i++){
-		void* p=malloc(1);
+		p = (char*)malloc(1);
 		free(p);
 	}*/
 	
@@ -17,7 +17,7 @@ int main(int argc, char** argv){
 	/*void* arr[50];
 	for(j = 0; j<3; j++){
 		for(i = 0; i<50; i++){
-			void* p=malloc(1);
+			p = (char*)malloc(1);
 			arr[i]=p;
 		}
 		for(i = 0; i<50; i++){
