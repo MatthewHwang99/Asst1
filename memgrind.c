@@ -35,12 +35,21 @@ int main(int argc, char** argv){
 			>if you have already allocated 50 times, disregard the random and just free on each iteration
 		Keep track of each operation so that you eventually free all pointer
 			>don't allow a free if you have no pointers to free*/
-	/*void* arr[50];
-	for(i=0;i<50;i++){
-		
-	
-	}*/
-	
+	void* arr[50];
+        int allocate = 0;
+	while(allocate < 50){
+	  if((rand() % 2) == 1){
+	    p = (char*)malloc(1);
+	    arr[allocate];
+	    allocate++;
+	  }else{
+	    if(allocate > 0){
+	      free(p);
+	      allocate--;
+	    }
+	  }
+	}
+	//at this point there has been 50 mallocs
 	
 	/*D: Randomly choose between a randomly-sized malloc of free ing a pointer - do this many times
 		- Keep track of each malloc so that all mallocs do not exceed your total memory capacity
