@@ -11,7 +11,7 @@ void* mymalloc(int size, char* fileName, int lineNum){
   }
   
   struct metadata* ptr = (struct metadata*)myblock;
-  if(ptr->isFree != 'y' || ptr->isFree != 'n'){
+  if(ptr->isFree != 'y' && ptr->isFree != 'n'){
     //First time mymalloc is run
     struct metadata first = {'y', (4096-sizeof(struct metadata))};
     *ptr = first;
@@ -80,7 +80,7 @@ void myfree(void* pointer, char* filename, int lineNum){
 		}
 	}
 	
-	if(pos > 4096){
+	if(pos >= 4096){
 		printf("Error at line %d in file %s: Cannot free pointer-- was not allocated by malloc().\n", lineNum, filename);
 		return;
 	}
