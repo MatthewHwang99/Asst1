@@ -67,6 +67,7 @@ int main(int argc, char** argv){
 		- Keep track of each operation so that you eventually malloc 50 times
 		- Keep track of each operation so that you eventually free() all pointers
 		- Choose a random allocated size between 1 and 64 bytes*/
+	/*	
 	void* array[50];
         int counter = 0, arrpos = 0, tempor, size;
 	srand(time(NULL));
@@ -94,9 +95,23 @@ int main(int argc, char** argv){
 	  printf("free end\n");
 	  free(array[i]);
 	}		
-	
+	*/
 	/*E,F: Two more works loads of your choosing
 		- Both described in testplan.txt*/
+
+	//E: malloc three times of random times, free the two outside blocks of memory, when the middle block is freed all three blocks
+	//are expected to be merged into one big block
+        
+	char* x, *y, *z;
+	int size = (4096 - sizeof(struct metadata)) / 3;
+	x = (char*)malloc(size);
+	y = (char*)malloc(size);
+	z = (char*)malloc(size);
+	free(x);
+	free(z);
+	free(y);
+		
+
 		
 				
 
