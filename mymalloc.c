@@ -27,12 +27,12 @@ void* mymalloc(int size, char* filename, int lineNum){
 	  *(ptr + size) = new;
 	  ptr->size = size;
 	  ptr->isFree = 'n';
-	  ptr += sizeof(metadata);
+	  ptr += sizeof(struct metadata);
 	  //&myblock[ptr+sizeof(metadata)];
 	}else{
 	  //isn't enough space for another metadata struct and more memory so just return the whole block of memory
 	  ptr->isFree = 'n';
-	  ptr += sizeof(metadata);
+	  ptr += sizeof(struct metadata);
 	}
 	return (void*)ptr;
       }
@@ -41,7 +41,7 @@ void* mymalloc(int size, char* filename, int lineNum){
     //or
     //ptr = &(ptr+sizeof(struct metadata));
     ptr += sizeof(metadata);
-    &myblock[ptr+sizeof(struct metadata)];
+    //&myblock[ptr+sizeof(struct metadata)];
   }
   //if you get here we could not process the request  
   return NULL;
