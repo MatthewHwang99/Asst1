@@ -1,7 +1,7 @@
 #include "mymalloc.h"
 
-int getNextAddr(struct metadata* currNode){
-	return currNode->size+sizeof(struct metadata);
+int getNextAddr(struct metadata* currNode, int loc){
+	return currNode->size+sizeof(struct metadata)+loc;
 }
 
 void* mymalloc(int size, char* fileName, int lineNum){
@@ -15,9 +15,9 @@ void* mymalloc(int size, char* fileName, int lineNum){
     //First time mymalloc is run
     struct metadata first = {'y', (4096-sizeof(struct metadata))};
     *ptr = first;
-    ptr += sizeof(struct metadata);
+    //ptr += sizeof(struct metadata);
     //double check to make sure this is the correct output; should be a pointer to the new data block
-    return (void*)ptr;
+    //return (void*)ptr;
   }
 
   //Iterate through entire array until a free metadata is found with enough size
@@ -28,10 +28,12 @@ void* mymalloc(int size, char* fileName, int lineNum){
 		if((ptr->size - size) > sizeof(struct metadata)){
 		  //there is enough room for another block of memory
 		  struct metadata new = {'y', (ptr->size - size - sizeof(struct metadata))};
-		  *(ptr + size) = new;
+		  struct metadata* newPtr = (struct metadata*)(((char*)ptr)+size+sizeof(struct metadata));
+		  *newPtr = new;
+		  //*(ptr + size) = new;
 		  ptr->size = size;
 		  ptr->isFree = 'n';
-		  ptr += sizeof(struct metadata);
+		  ptr+=1;
 		  //ptr = &myblock[ptr+sizeof(struct metadata)];
 		}else{
 		  //isn't enough space for another metadata struct and more memory so just return the whole block of memory
@@ -67,12 +69,12 @@ void myfree(void* pointer, char* filename, int lineNum){
 	
 	//B: Free()ing pointers that were not allocated by malloc():
 	//Check each md block to see if ptr is one of the mem block's that were malloc'd
-	struct metadata* temp = (struct metadata*)(myblock);
+	struct metadata* temp = (struct metadata*)(&myblock);
 	int pos = 0;
 	while(pos < 4096){
 		if(temp != ptr){
-			pos = getNextAddr(temp);
-			temp = (struct metadata*)(myblock+pos);
+			pos = getNextAddr(temp, pos);
+			temp = (struct metadata*)(&myblock[pos]);
 		}else{
 			break; //temp == ptr | ptr was allocated by mymalloc
 		}
@@ -93,21 +95,23 @@ void myfree(void* pointer, char* filename, int lineNum){
 	//Since none of the conditions were met above, we can safely free the pointer
 	mdPtr->isFree = 'y';
 	
+	pos = 0;
 	//Iterate through the metadatas and combined adjacent blocks of memory that are free
 	temp = (struct metadata*)(myblock);
 	struct metadata* prev = temp;
-	pos = getNextAddr(temp);
-	temp = (struct metadata*)(myblock+pos);
+	pos = getNextAddr(temp, pos);
+	temp = (struct metadata*)(&myblock[pos]);
 	
 	while(pos < 4096){
 		if(temp->isFree == 'y' && prev->isFree == 'y'){ //adj blocks are free, combine them
 			prev->size += (temp->size+sizeof(struct metadata));
-			pos = getNextAddr(temp);
-			temp = (struct metadata*)(myblock+pos); //keep prev where it is in case the md after temp is also free
+			pos = getNextAddr(temp, pos);
+			temp = (struct metadata*)(&myblock[pos]); //keep prev where it is in case the md after temp is also free
+			//printf("merge successful\n");
 		}else{
-			pos = getNextAddr(temp);
+			pos = getNextAddr(temp, pos);
 			prev = temp;
-			temp = (struct metadata*)(myblock+pos);
+			temp = (struct metadata*)(&myblock[pos]);
 		}
 	}
 	

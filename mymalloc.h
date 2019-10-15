@@ -24,7 +24,7 @@ struct metadata{
 	short size; //use a short to store the size of the block of memory since it is smaller than int
 };
 
-int getNextAddr(struct metadata*);
+int getNextAddr(struct metadata*, int);
 
 //definition for a static array of size 4096 to allocate from
 static char myblock[4096];

@@ -3,20 +3,22 @@
 int main(int argc, char** argv){
 	int i; int j;
 	
-	char* p;// = (char*)malloc(1);
+	char* p;// = (char*)malloc(10);
 	//free(p);
+	
+	
 	
 	//A: malloc() 1 byte and immediately free it - do this 150 times
 	for(i = 0; i<150; i++){
 		p = (char*)malloc(1);
-		printf("malloc(): %d\n", i);
+		//printf("malloc(): %d\n", i);
 		free(p);
-		printf("free(): %d\n", i);
+		//printf("free(): %d\n", i);
 	}
 	
 	/*B: malloc() 1 byte, store the pointer in an array - do this 150 times.
 		Once you've malloced 50 byte chunks, then free the 50 1 byte pointers one by one*/
-	/*void* arr[50];
+	void* arr[50];
 	for(j = 0; j<3; j++){
 		for(i = 0; i<50; i++){
 			p = (char*)malloc(1);
@@ -25,7 +27,7 @@ int main(int argc, char** argv){
 		for(i = 0; i<50; i++){
 			free(arr[i]);
 		}
-	}*/
+	}
 	
 	/*C: Randomly choose between a 1 byte malloc or freeing a 1 byte pointer
 			>do this until you have allocated 50 times
