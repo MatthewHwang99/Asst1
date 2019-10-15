@@ -101,7 +101,7 @@ int main(int argc, char** argv){
 
 	//E: malloc three times of random times, free the two outside blocks of memory, when the middle block is freed all three blocks
 	//are expected to be merged into one big block
-        
+	/*
 	char* x, *y, *z;
 	int size = (4096 - sizeof(struct metadata)) / 3;
 	x = (char*)malloc(size);
@@ -110,7 +110,9 @@ int main(int argc, char** argv){
 	free(x);
 	free(z);
 	free(y);
-		
+	*/
+
+	//F: malloc until the block is full, then free all pointers
 
 		
 				
