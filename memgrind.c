@@ -103,7 +103,7 @@ int main(int argc, char** argv){
 	//are expected to be merged into one big block
         
 	char* x, *y, *z;
-	int size = (4096 - sizeof(struct metadata)) / 3;
+	int size = (4096 - sizeof(struct metadata)*3) / 3;
 	x = (char*)malloc(size);
 	y = (char*)malloc(size);
 	z = (char*)malloc(size);
