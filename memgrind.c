@@ -69,14 +69,14 @@ int main(int argc, char** argv){
 	//E: malloc three times of random times, free the two outside blocks of memory, when the middle block is freed all three blocks
 	//are expected to be merged into one big block	
 	
-	/*for(int i = 0; i<100; i++){
+	for(int i = 0; i<100; i++){
 		gettimeofday(&start, 0);
 		testE();
 		gettimeofday(&end, 0);
 		
 		timeE += (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 	}
-	timeE = timeE/100;*/
+	timeE = timeE/100;
 
 	//F: malloc until the block is full, then free all pointers
 	
