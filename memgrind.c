@@ -80,7 +80,18 @@ int main(int argc, char** argv){
 
 	//F: malloc until the block is full, then free all pointers
 	
+	char* pp;
+	char arrayz[5000];
+	int z = 0;
+	do{
+	pp = malloc(rand() % 101);
+	arrayz[z] = pp;
+	z++;
+	}while(pp != NULL);
 	
+	for(; z >= 0; z++){
+	free(arrayz[z]);	
+	}
 	
 	
 	
