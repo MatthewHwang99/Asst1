@@ -80,26 +80,24 @@ int main(int argc, char** argv){
 
 	//F: malloc until the block is full, then free all pointers
 	
-	char* pp;
-	char arrayz[5000];
-	int z = 0;
-	do{
-	pp = malloc(rand() % 101);
-	arrayz[z] = pp;
-	z++;
-	}while(pp != NULL);
 	
-	for(; z >= 0; z++){
-	free(arrayz[z]);	
+	for(int i = 0; i<100; i++){
+	  gettimeofday(&start, 0);
+	  testF();
+	  gettimeofday(&end, 0);
+	  
+	  timeF += (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 	}
+
+	timeF = timeF/100;
 	
-	
-	
+
 	printf("Average run time for testA: %lu microseconds.\n", timeA);
 	printf("Average run time for testB: %lu microseconds.\n", timeB);
 	printf("Average run time for testC: %lu microseconds.\n", timeC);
 	printf("Average run time for testD: %lu microseconds.\n", timeD);
 	printf("Average run time for testE: %lu microseconds.\n", timeE);
+	printf("Average run time for testF: %lu microseconds.\n", timeF);
 	//printf("Average run time for testF: %lu microseconds.\n", timeF);
 
 
@@ -108,102 +106,113 @@ int main(int argc, char** argv){
 }
 
 void testA(){
-	int i;
-	for(int i = 0; i<150; i++){
-		char* p = (char*)malloc(1);
-		//printf("malloc(): %d\n", i);
-		free(p);
-		//printf("free(): %d\n", i);
-		}
-	return;
+  int i;
+  for(int i = 0; i<150; i++){
+    char* p = (char*)malloc(1);
+    //printf("malloc(): %d\n", i);
+    free(p);
+    //printf("free(): %d\n", i);
+  }
+  return;
 }
 
 void testB(){
-	void* arr[50];
-	for(int j = 0; j<3; j++){
-		for(int i = 0; i<50; i++){
-			char* p = (char*)malloc(1);
-			arr[i]=p;
-		}
-		for(int i = 0; i<50; i++){
-			free(arr[i]);
-		}
-	}	
-	return;
+  void* arr[50];
+  for(int j = 0; j<3; j++){
+    for(int i = 0; i<50; i++){
+      char* p = (char*)malloc(1);
+      arr[i]=p;
+    }
+    for(int i = 0; i<50; i++){
+      free(arr[i]);
+    }
+  }	
+  return;
 }
 
 void testC(){
-	void* arr[50];
-	int allocate = 0, pos = 0, temp;
-	srand(time(NULL));
-	
-	while(allocate < 50){
-		temp = (rand() % 2);
-		if(temp == 1){
-		  	char* p = (char*)malloc(1);
-		    arr[pos] = p;
-		    allocate++;
-		    pos++;
-		  }else{
-		    if(allocate > 0 && pos > 0){
-		      free(arr[pos]);
-		      pos--;
-		    //printf("pos %d\n", pos);
-		    }
-		  }
-		}
-		for(int i = 0; i < pos; i++){
-		//  printf("free end\n");
-		  free(arr[i]);
-		}
-	return;
+  void* arr[50];
+  int allocate = 0, pos = 0, temp;
+  srand(time(NULL));
+  
+  while(allocate < 50){
+    temp = (rand() % 2);
+    if(temp == 1){
+      char* p = (char*)malloc(1);
+      arr[pos] = p;
+      allocate++;
+      pos++;
+    }else{
+      if(allocate > 0 && pos > 0){
+	free(arr[pos]);
+	pos--;
+	//printf("pos %d\n", pos);
+      }
+    }
+  }
+  for(int i = 0; i < pos; i++){
+    //  printf("free end\n");
+    free(arr[i]);
+  }
+  return;
 }
 
 void testD(){
-		void* array[50];
-    	int counter = 0, arrpos = 0, tempor, size;
-		srand(time(NULL));
-		while(counter < 50){
-		  tempor = (rand() % 2);
-		  if(tempor == 1){
-		    //printf("counter-> %d\n", counter);
-		    size = (rand() % 65);
-		    while(size == 0){
-		      size = (rand() % 65);	      
-		    }
-		    char* p = (char*)malloc(size);
-		    array[arrpos] = p;
-		    counter++;
-		    arrpos++;
-		  }else{
-		    if(counter > 0 && arrpos > 0){
-		      free(array[arrpos]);
-		      arrpos--;
-		    //printf("pos %d\n", arrpos);
-		    }
-		  }
-		}
-		for(int i = 0; i < arrpos; i++){
-		 // printf("free end\n");
-		  free(array[i]);
-		}		
-	return;
+  void* array[50];
+  int counter = 0, arrpos = 0, tempor, size;
+  srand(time(NULL));
+  while(counter < 50){
+    tempor = (rand() % 2);
+    if(tempor == 1){
+      //printf("counter-> %d\n", counter);
+      size = (rand() % 65);
+      while(size == 0){
+	size = (rand() % 65);	      
+      }
+      char* p = (char*)malloc(size);
+      array[arrpos] = p;
+      counter++;
+      arrpos++;
+    }else{
+      if(counter > 0 && arrpos > 0){
+	free(array[arrpos]);
+	arrpos--;
+	//printf("pos %d\n", arrpos);
+      }
+    }
+  }
+  for(int i = 0; i < arrpos; i++){
+    // printf("free end\n");
+    free(array[i]);
+  }		
+  return;
 }
 
 void testE(){
-	char* x, *y, *z;
-	int size = (4096 - sizeof(struct metadata)*3) / 3;
-	x = (char*)malloc(size);
-	y = (char*)malloc(size);
-	z = (char*)malloc(size);
-	free(x);
-	free(z);
-	free(y);
-	
-	return;
+  char* x, *y, *z;
+  int size = (4096 - sizeof(struct metadata)*3) / 3;
+  x = (char*)malloc(size);
+  y = (char*)malloc(size);
+  z = (char*)malloc(size);
+  free(x);
+  free(z);
+  free(y);
+  
+  return;
 }
 
 void testF(){
-
-	return;
+  void* arrayz[5000];
+  int z = 0;
+  do{
+    char* p = (char*)malloc(rand() % 101);
+    arrayz[z] = p;
+    z++;
+  }while(arrayz[z-1] != NULL);
+  
+  for(; z >= 0; z--){
+    free(arrayz[z]);	
+  }
+  
+  return;
 }
