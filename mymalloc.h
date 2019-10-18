@@ -5,6 +5,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<time.h>
+#include<sys/time.h>
 #include<math.h>
 
 //macros to replace all calls to malloc(x) with calls to mymalloc(x)
@@ -17,6 +18,14 @@ void* mymalloc(int, char*, int);
 
 //function signature for myfree(x) code
 void myfree(void*, char*, int);
+
+//function signatures for each workload
+void testA();
+void testB();
+void testC();
+void testD();
+void testE();
+void testF();
 
 //metadata struct definition
 struct metadata{
