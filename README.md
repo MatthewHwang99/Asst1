@@ -6,3 +6,9 @@ Myfree() design:
 	After all the above is completed, we iterate through myblock and check for adjacent blocks that are both free using two metadata pointers. If they are, the previous pointer will gain the size of the free block in front of it, and the size of the metadata.
 	
 Memgrind results:
+	Average runtime for testA: 13 microseconds
+	Average runtime for testB: 88 microseconds
+	Average runtime for testC: 23 microseconds
+	Average runtime for testD: 23 microseconds
+	Average runtime for testE: 1 microseconds
+	Average runtime for testF: 1 microseconds
