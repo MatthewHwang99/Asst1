@@ -203,7 +203,8 @@ void testE(){
 
 void testF(){
   void* arrayz[5000];
-  int z = 0;
+  int z = 0, j;
+  srand(time(NULL));
   do{
     char* p = (char*)malloc(rand() % 101);
     arrayz[z] = p;
