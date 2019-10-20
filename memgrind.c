@@ -204,13 +204,13 @@ void testE(){
 void testF(){
   void* arrayz[5000];
   int z = 0, j;
+  char* p;
   srand(time(NULL));
   do{
-    char* p = (char*)malloc(rand() % 101);
+    p = (char*)malloc(rand() % 101);
     arrayz[z] = p;
     z++;
-  }while(arrayz[z-1] != NULL);
-  
+  }while(p != NULL);
   for(; z >= 0; z--){
     free(arrayz[z]);	
   }
